@@ -1405,7 +1405,7 @@ namespace Perceiveit.Data.Schema
                 DataTable dt = ds.Tables.Add("ForeignKeys");
                 this.Database.PopulateDataSet(ds, cmd, LoadOption.OverwriteChanges, "ForeignKeys");
                 ds.AcceptChanges();
-                dt.WriteXml("C:\\SchemaOutput\\ForeignKeys" + fkref.Name + ".xml");
+                //dt.WriteXml("C:\\SchemaOutput\\ForeignKeys" + fkref.Name + ".xml");
                 return dt;
             }
             

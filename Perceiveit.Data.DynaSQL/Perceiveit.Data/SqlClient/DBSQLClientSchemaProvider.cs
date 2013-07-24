@@ -116,7 +116,7 @@ namespace Perceiveit.Data.SqlClient
                 using (DbDataReader reader = cmd.ExecuteReader(CommandBehavior.KeyInfo | CommandBehavior.SchemaOnly))
                 {
                     DataTable dt = reader.GetSchemaTable();
-                    dt.WriteXml("C:\\SchemaOutput\\ViewColumns_" + vref.Name.Replace(" ", "_") + ".xml");
+                    //dt.WriteXml("C:\\SchemaOutput\\ViewColumns_" + vref.Name.Replace(" ", "_") + ".xml");
                     return dt;
                 }
             }
@@ -164,7 +164,7 @@ namespace Perceiveit.Data.SqlClient
                 using (DbDataReader reader = cmd.ExecuteReader(CommandBehavior.KeyInfo | CommandBehavior.SchemaOnly))
                 {
                     DataTable dt = reader.GetSchemaTable();
-                    dt.WriteXml("C:\\SchemaOutput\\" + tableref.Name + ".xml");
+                    //dt.WriteXml("C:\\SchemaOutput\\" + tableref.Name + ".xml");
                     dt.AcceptChanges();
                     return dt;
                 }
