@@ -2646,6 +2646,26 @@ namespace Perceiveit.Data.Query
 
         #endregion
 
+        #region public virtual void WriteSourceField(string catalog, string schemaOwner, string sourceTable, string columnName, string alias)
+
+        /// <summary>
+        /// Appends the sql expression text with alias
+        /// </summary>
+        public virtual void WriteExpression(string expression, string alias)
+        {
+            if (string.IsNullOrEmpty(expression))
+                throw new ArgumentNullException("expression");
+
+            this.WriteRawSQLString(expression);
+
+            if (!string.IsNullOrEmpty(alias))
+            {
+                this.WriteAlias(alias);
+            }
+        }
+
+        #endregion
+
         #region public virtual void WriteSourceTable(string schemaOwner, string sourceTable, string alias)
 
         /// <summary>

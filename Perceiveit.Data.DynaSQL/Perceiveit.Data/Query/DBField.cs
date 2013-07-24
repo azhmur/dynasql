@@ -32,6 +32,7 @@ namespace Perceiveit.Data.Query
         private string _tbl;
         private string _owner;
         private string _catalog;
+        private string _embeddedExpression;
 
         //
         // properties
@@ -85,6 +86,19 @@ namespace Perceiveit.Data.Query
         {
             get { return _catalog; }
             set { _catalog = value; }
+        }
+
+        #endregion
+
+        #region public string EmbeddedExpression {get;set;}
+
+        /// <summary>
+        /// Gets or sets the expression for the field
+        /// </summary>
+        public string EmbeddedExpression
+        {
+            get { return _embeddedExpression; }
+            set { _embeddedExpression = value; }
         }
 
         #endregion
@@ -275,6 +289,26 @@ namespace Perceiveit.Data.Query
 
         #endregion
 
+        #region public static DBField Expression(string expression)
+
+        /// <summary>
+        /// Creates a new DBField embedden sql expression reference with specified text
+        /// </summary>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        public static DBField Expression(string expression)
+        {
+            if (string.IsNullOrEmpty(expression))
+                throw new ArgumentNullException("expression");
+
+            DBFieldRef fref = new DBFieldRef();
+            fref.EmbeddedExpression = expression;
+
+            return fref;
+        }
+
+        #endregion
+
         /// <summary>
         /// Sets the alias for this field reference - Inheritors must override
         /// </summary>
@@ -331,10 +365,13 @@ namespace Perceiveit.Data.Query
 
         public override bool BuildStatement(DBStatementBuilder builder)
         {
-            if (string.IsNullOrEmpty(this.Name))
+            if (string.IsNullOrEmpty(this.Name) && string.IsNullOrEmpty(this.EmbeddedExpression))
                 return false;
 
-            builder.WriteSourceField(this.Catalog, this.Owner, this.Table, this.Name, this.Alias);
+            if (string.IsNullOrEmpty(this.EmbeddedExpression))
+                builder.WriteSourceField(this.Catalog, this.Owner, this.Table, this.Name, this.Alias);
+            else
+                builder.WriteExpression(this.EmbeddedExpression, this.Alias);
 
             return true;
         }
